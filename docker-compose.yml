@@ -1,8 +1,6 @@
-version: "3.9"
-
 services:
   postgres:
-    image: postgres:14     
+    image: postgres:14
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     environment:
@@ -14,8 +12,8 @@ services:
     networks:
       - tuna-net
   server:
-    container_name: practicum-game
-    image: practicum-game
+    container_name: platina-wiki
+    image: platina-wiki
     build:
       context: .
       dockerfile: Dockerfile.server
@@ -48,6 +46,19 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
     depends_on:
       - server
+    networks:
+      - tuna-net
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: prismasm-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: 123456
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
     networks:
       - tuna-net
 

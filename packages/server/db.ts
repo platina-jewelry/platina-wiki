@@ -1,52 +1,60 @@
 import {Sequelize, SequelizeOptions} from 'sequelize-typescript'
-import {Topic} from './models/forum/topic'
-import {Message} from './models/forum/message'
-import {Reaction} from './models/forum/reaction'
 import {UserTheme, SiteTheme} from './models/themes'
 import {readdir} from 'fs/promises'
 import {join} from 'path'
 
+// Извлекаем параметры подключения к базе данных из переменных окружения
 const {
   POSTGRES_USER,
   POSTGRES_PASSWORD,
   POSTGRES_DB,
   POSTGRES_PORT,
   POSTGRES_HOST,
-} = process.env
+} = process.env;
 
-const host = process.env.NODE_ENV === 'development' ? 'localhost' : POSTGRES_HOST
+// Определяем хост, основываясь на текущем окружении (если 'development', то localhost, если нет — берем из переменной окружения POSTGRES_HOST)
+const host = process.env.NODE_ENV === 'development' ? 'localhost' : POSTGRES_HOST;
 
-
+// Настройки для подключения к базе данных с использованием Sequelize
 const sequelizeOptions: SequelizeOptions = {
-  host: host,
-  port: Number(POSTGRES_PORT),
-  username: POSTGRES_USER,
-  password: POSTGRES_PASSWORD,
-  database: POSTGRES_DB,
-  dialect: 'postgres',
-  models: [Topic, Message, Reaction, UserTheme, SiteTheme],
-}
+  host: host, // Хост базы данных
+  port: Number(POSTGRES_PORT), // Порт для подключения
+  username: POSTGRES_USER, // Имя пользователя для подключения
+  password: POSTGRES_PASSWORD, // Пароль для подключения
+  database: POSTGRES_DB, // Имя базы данных
+  dialect: 'postgres', // Диалект базы данных (в нашем случае PostgreSQL)
+  models: [UserTheme, SiteTheme], // Указываем модели, которые будут использоваться для работы с базой данных
+};
 
-export const sequelize = new Sequelize(sequelizeOptions)
+// Создаем экземпляр Sequelize с указанными настройками
+export const sequelize = new Sequelize(sequelizeOptions);
 
+// Функция для подключения к базе данных и применения миграций
 export async function dbConnect() {
   try {
-    await sequelize.authenticate()
-    await sequelize.sync()
+    // Проверка подключения к базе данных
+    await sequelize.authenticate();
+    // Синхронизация моделей с базой данных (создание таблиц, если они не существуют)
+    await sequelize.sync();
 
-    const migrationsDirectory = join(__dirname, 'migrations')
-    const migrations = await readdir(migrationsDirectory)
+    // Чтение файлов миграций из папки 'migrations'
+    const migrationsDirectory = join(__dirname, 'migrations');
+    const migrations = await readdir(migrationsDirectory); // Получаем список всех файлов миграций
 
+    // Проходим по каждому файлу миграции и применяем необходимые
     for (const file of migrations) {
-      const migration = require(join(migrationsDirectory, file))
+      const migration = require(join(migrationsDirectory, file)); // Загружаем миграцию
 
+      // Проверяем, нужно ли применять миграцию (если checkData вернет true)
       if (await migration.checkData()) {
-        await migration.up(sequelize.getQueryInterface())
+        // Применяем миграцию
+        await migration.up(sequelize.getQueryInterface());
       }
     }
 
-    console.log('👍 Соединение с БД успешно установлено')
+    console.log('👍 Соединение с БД успешно установлено'); // Если все прошло успешно
   } catch (error) {
-    console.error('🚨 Ошибка при подключении в БД', error)
+    // Если возникла ошибка при подключении или применении миграций
+    console.error('🚨 Ошибка при подключении в БД', error);
   }
 }
