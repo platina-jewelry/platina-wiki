@@ -16,9 +16,9 @@ import createCache from '@emotion/cache'
 import cookieParser from 'cookie-parser'
 import {getUser} from './services/user/user'
 import {apiRoute} from './routes/api'
-import {createProxyMiddleware} from 'http-proxy-middleware'
+// import {createProxyMiddleware} from 'http-proxy-middleware'
 import * as process from 'process'
-import {dbConnect} from './db'
+// import {dbConnect} from './db'
 
 // Проверяем, находимся ли мы в режиме разработки
 const isDev = () => process.env.NODE_ENV === 'development'
@@ -37,7 +37,6 @@ async function startServer() {
       `http://localhost:${process.env.CLIENT_PORT}`,
       `http://127.0.0.1:${process.env.SERVER_PORT}`,
       `http://localhost:${process.env.SERVER_PORT}`,
-      'https://test.platina-kostroma.com'
     ],
     // Устанавливаем статус успешного ответа для OPTIONS-запросов
     optionsSuccessStatus: 200,
@@ -67,8 +66,6 @@ async function startServer() {
           conectSrc: [
             // Разрешаем только локальные соединения
             "'self'",
-            // Разрешаем подключение к указанным доменам
-            'https://test.platina-kostroma.com',
             'http://localhost:*',
             'http://51.250.109.136',
             'https://51.250.109.136',
@@ -92,17 +89,17 @@ async function startServer() {
   app.use('/api', apiRoute)
 
   // Прокси для запросов, которые начинаются с /api/v2, перенаправляет их на другой сервер
-  app.use(
-    '/api/v2',
-    createProxyMiddleware({
-      // Прокси меняет источник запроса
-      changeOrigin: true,
-      // Очищаем домен cookie
-      cookieDomainRewrite: {'*': ''},
-      // Целевой сервер для проксирования
-      target: 'https://test.platina-kostroma.com',
-    })
-  )
+  // app.use(
+  //   '/api/v2',
+  //   createProxyMiddleware({
+  //     // Прокси меняет источник запроса
+  //     changeOrigin: true,
+  //     // Очищаем домен cookie
+  //     cookieDomainRewrite: {'*': ''},
+  //     // Целевой сервер для проксирования
+  //     target: 'https://test.platina-kostroma.com',
+  //   })
+  // )
 
   // Используем cookieParser для работы с cookies
   app.use(cookieParser())
@@ -137,7 +134,7 @@ async function startServer() {
     app.use('/assets', express.static(path.resolve(distPath, 'assets')))
   }
 
-  await dbConnect()
+  // await dbConnect()
 
   // Обрабатываем все запросы по любому пути
   app.get('*', async (req, res, next) => {

@@ -9,7 +9,7 @@ const App: FC = () => {
   return (
     <HelmetProvider>
       <ChakraProvider theme={theme}>
-        <>Hello</>
+        <div contentEditable="true">Это редактируемый текст. Попробуй изменить его!</div>
       </ChakraProvider>
     </HelmetProvider>
   )

@@ -8,7 +8,7 @@ dotenv.config()
 export default defineConfig({
   define: {
     __SERVER_PORT__: Number(process.env.SERVER_PORT) || 3000,
-    __SERVER_API__: `'${process.env.SERVER_API}'` || 'https://test.platina-kostroma.com/',
+    __SERVER_API__: `'${process.env.SERVER_API}'` || 'http://localhost:3000',
   },
   plugins: [react(),
     VitePWA({
