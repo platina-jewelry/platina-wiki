@@ -10,8 +10,8 @@ export async function up(queryInterface: QueryInterface): Promise<void> {
     await queryInterface.bulkInsert('site_theme', [
       {
         id: 1,
-        theme: 'day',
-        description: 'Дневная',
+        theme: 'light',
+        description: 'Светлая',
       },
       {
         id: 2,

@@ -230,3 +230,8 @@ docker compose up server
 ```bash
   cd /path/to/directory
 ```
+
+### Создание сертификата
+```bash
+openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout C:\xampp\htdocs\domains\platina-wiki\ssl\certs\localhost.key -out C:\xampp\htdocs\domains\platina-wiki\ssl\certs\localhost.crt
+```
