@@ -18,7 +18,7 @@ import {getUser} from './services/user/user'
 import {apiRoute} from './routes/api'
 // import {createProxyMiddleware} from 'http-proxy-middleware'
 import * as process from 'process'
-import {dbConnect} from './db'
+// import {dbConnect} from './db'
 
 // Проверяем, находимся ли мы в режиме разработки
 const isDev = () => process.env.NODE_ENV === 'development'
@@ -134,7 +134,7 @@ async function startServer() {
     app.use('/assets', express.static(path.resolve(distPath, 'assets')))
   }
 
-  await dbConnect()
+  // await dbConnect()
 
   // Обрабатываем все запросы по любому пути
   app.get('*', async (req, res, next) => {

@@ -11,7 +11,12 @@
 3. Выполните команду для установки зависимостей:
 
  ```bash
-   yarn bootstrap
+npm uninstall -g yarn
+npm install -g yarn
+yarn add rimraf --dev -W
+yarn install
+
+yarn bootstrap
  ```
 
 ## Как добавить зависимости
@@ -82,35 +87,34 @@ yarn build
 
 ### Команды Docker
 
-- **Собрать образы и запустить их**: Это общая команда, которая обычно используется для запуска Docker-команд в вашем
-  проекте.
+- **Собрать образы и запустить их**: Это общая команда, которая обычно используется для запуска Docker-команд в проекте.
 
 ```bash
-  yarn docker
+yarn docker
 ```
 
 - **Собрать все образы**: Эта команда обычно отвечает только за сборку Docker образов.
 
 ```bash
-  yarn docker:build
+yarn docker:build
 ```
 
 - **Запустить образы**:
 
 ```bash
-  yarn docker:up
+yarn docker:up
 ```
 
 - **Запустить образы, а также сервер в разработческом режиме**:
 
 ```bash
-  yarn docker:dev
+yarn docker:dev
 ```
 
 - **Остановить контейнеры**:
 
 ```bash
-  yarn docker:stop
+yarn docker:stop
 ```
 
 Для корректной работы необходимо наличие файла `.env` со значениями переменных окружения. Пример наполнения представлен
@@ -123,13 +127,13 @@ yarn build
 1. Остановите все контейнеры:
 
  ```bash
-   docker-compose down
+docker-compose down
  ```
 
 2. Очистите неиспользуемые контейнеры, образы и тома:
 
  ```bash
-   docker system prune -a
+docker system prune -a
  ```
 
 ## Просмотр результата
