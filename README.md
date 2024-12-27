@@ -25,6 +25,7 @@ yarn bootstrap
 
 ```bash
 yarn lerna add {your_dep} --scope client
+yarn lerna add @editorjs/paragraph --scope client
 ```
 
 Для сервера:

@@ -1,18 +1,17 @@
-import {FC} from 'react'
-import './App.css'
-import {HelmetProvider} from 'react-helmet-async'
-import {ChakraProvider} from '@chakra-ui/react'
-import {theme} from './constants'
+import React from 'react';
+import {ChakraProvider} from '@chakra-ui/react';
+import {HelmetProvider} from 'react-helmet-async';
+import {theme} from './constants';
+import Editor from "./Editor";
 
-const App: FC = () => {
-
+const App: React.FC = () => {
   return (
     <HelmetProvider>
       <ChakraProvider theme={theme}>
-        <div contentEditable="true">Это редактируемый текст. Попробуй изменить его!</div>
+          <Editor />
       </ChakraProvider>
     </HelmetProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;

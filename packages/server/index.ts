@@ -184,7 +184,6 @@ async function startServer() {
         createStore = client.createStore
       }
 
-
       let initialStore = {}
 
       // Проверяем, есть ли пользователь в cookies

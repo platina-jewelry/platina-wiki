@@ -1,8 +1,8 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa'
-import dotenv from 'dotenv'
-dotenv.config()
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { VitePWA } from 'vite-plugin-pwa';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export default defineConfig({
   server: {
@@ -23,6 +23,31 @@ export default defineConfig({
       injectManifest: {
         injectionPoint: null,
       },
-    })
+    }),
   ],
-})
+  optimizeDeps: {
+    include: [
+      "@editorjs/editorjs",
+      "@editorjs/header",
+      "@editorjs/image",
+      "@editorjs/list",
+      "@editorjs/table",
+      "@editorjs/marker",
+      "@editorjs/warning",
+      "@editorjs/checklist",
+      "@editorjs/inline-code",
+      "@editorjs/raw",
+      "@editorjs/embed",
+    ],
+  },
+  build: {
+    rollupOptions: {
+      external: [
+        '@editorjs/editorjs',
+        '@editorjs/header',
+        '@editorjs/image',
+        '@editorjs/list',
+      ],
+    },
+  },
+});
